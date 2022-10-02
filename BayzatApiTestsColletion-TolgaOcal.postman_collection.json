@@ -1,0 +1,1448 @@
+{
+	"info": {
+		"_postman_id": "c8acc4c6-5c1d-459f-a527-21f406b37521",
+		"name": "BayzatApiTestsColletion-TolgaOcal",
+		"description": "Api requests collection. Created for Bayzat Assigment APIs testing. Includes Admin and User role types requests.\n\nUsers can:\n\n\\* Query currencies  \n\\* Add alerts  \n\\* Edit Alerts  \n\\* Delete/Cancel Alerts  \n\\* Acknowledge Alerts\n\nAdmins can do whatever User role do, plus:\n\n\\* Add currencies  \n\\* Remove currencies\n\n\\* Every username that contains \"admin\" word in it, will be considered as an admin user. ADMIN is the highest authority.\n\nNOTES:\n\n\\* Deleting an alert (OR OTHER ENTITIES) WILL NOT remove actual record on the database, isActive field will be false and ALL alert associations with USER and CURRENCY will be detached. This alert will not be seen if user or admin request alerts.  \n\\* Same above applies for currencies.\n\n\\* IF A CURRENCY DELETED, ALL ALERTS OF THAT COIN WILL ALSO BE DETACHED, BOTH USER_ALERTS AND CURRENCY_ALERTS, ACTUAL ALERT RECORD AND CURRENCY RECORD WILL NOT BE DELETED. THEIR ACTIVE FIELD WILL BE FALSE.\n\n\\* IF AN ALERT DELETED, ALL ASSOCIATION TO THAT ALERT WILL BE DETACHED, BOTH USER_ALERTS AND CURRENCY_ALERTS, ACTUAL ALERT RECORD WILL REMAIN.\n\n\\* ONCE ALERT HAS TRIGGERED, CHANGE OF THE CURRENCIES PRICE WILL NOT MATTER. THE ONLY WAY TO TURN IT OFF, CALL ACKNOWLEDGE ENDPOINT OR DELETE ALERT.\n\n\\*   ENDPOINTS CHECKS IF RECORD IS ACTIVE, SO IF YOU SEE A ISACTIVE=FALSE RECORD ON THE DATABASE, LIKELY YOU WILL NOT SEE THIS RECORD RETURNED FROM AN ENDPOINT.\n    \n\n\\* ALSO SEE SWAGGER2 DOC. AT [http://localhost:8080/bayzat/swagger-ui.html](http://localhost:8080/bayzat/swagger-ui.html)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21731186"
+	},
+	"item": [
+		{
+			"name": "Login Requests",
+			"item": [
+				{
+					"name": "Admin Login Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/bayzat/login?username=admin1&password=admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bayzat",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "admin1"
+								},
+								{
+									"key": "password",
+									"value": "admin"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Login Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/bayzat/login?username=user1&password=admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bayzat",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "user1"
+								},
+								{
+									"key": "password",
+									"value": "admin"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Contains Login requests."
+		},
+		{
+			"name": "Unsupported Coin Adding",
+			"item": [
+				{
+					"name": "Admin Login Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/bayzat/login?username=admin1&password=admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bayzat",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "admin1"
+								},
+								{
+									"key": "password",
+									"value": "admin"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UnsupportedCoin Exception",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Ethereum\",\r\n    \"marketRank\": 5,\r\n    \"symbol\": \"ETH\",\r\n    \"circulatingSupply\": 12323432,\r\n    \"maxSupply\": 342354352345,\r\n    \"currentPriceUSD\": 1456.543\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/bayzat/currencies/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bayzat",
+								"currencies",
+								"add"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "UnsupportedCoin Exception",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"LiteCoin\",\r\n    \"marketRank\": 53,\r\n    \"symbol\": \"LTC\",\r\n    \"circulatingSupply\": 12323432,\r\n    \"maxSupply\": 342354352345,\r\n    \"currentPriceUSD\": 1456.543\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/bayzat/currencies/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"currencies",
+										"add"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"description": "Trying to add coins which have a symbol in list \\[ETH, LTC, ZKN, MRD, LPR, GBZ\\] will throw an \"UnsupportedCurrencyCreationException\" error."
+		},
+		{
+			"name": "User Requests",
+			"item": [
+				{
+					"name": "User Add Currency",
+					"item": [
+						{
+							"name": "User Login Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/login?username=user1&password=admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "user1"
+										},
+										{
+											"key": "password",
+											"value": "admin"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Currency",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"NotEthereum\",\r\n    \"marketRank\": 5,\r\n    \"symbol\": \"NETH\",\r\n    \"circulatingSupply\": 12323432,\r\n    \"maxSupply\": 342354352345,\r\n    \"currentPriceUSD\": 1456.543\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/bayzat/currencies/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"currencies",
+										"add"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Will throw an error since, users are not allowed to create coins."
+				},
+				{
+					"name": "User Delete Currency",
+					"item": [
+						{
+							"name": "User Login Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/login?username=user1&password=admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "user1"
+										},
+										{
+											"key": "password",
+											"value": "admin"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove Currency",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8080/bayzat/currencies/delete?currencyId=6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"currencies",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "currencyId",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Will throw an error since, users are not allowed to delete coins."
+				},
+				{
+					"name": "User Update Currency",
+					"item": [
+						{
+							"name": "User Login Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/login?username=user1&password=admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "user1"
+										},
+										{
+											"key": "password",
+											"value": "admin"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "User Update Currency",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Fatom\",\r\n    \"marketRank\": 15,\r\n    \"symbol\": \"FTM\",\r\n    \"circulatingSupply\": 432,\r\n    \"maxSupply\": 3423545,\r\n    \"currentPrice\": 146.543\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/bayzat/currencies/update?currencyId=4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"currencies",
+										"update"
+									],
+									"query": [
+										{
+											"key": "currencyId",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Will throw an error since, users are not allowed to update coins."
+				},
+				{
+					"name": "User Query Currencies",
+					"item": [
+						{
+							"name": "User Login Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/login?username=user1&password=admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "user1"
+										},
+										{
+											"key": "password",
+											"value": "admin"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Query Currencies",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/currencies",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"currencies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search Currencies By Name",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/currencies/by-currency-name?name=NotEthereum",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"currencies",
+										"by-currency-name"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "NotEthereum"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Search Currencies By Name",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/x-www-form-urlencoded",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": []
+										},
+										"url": {
+											"raw": "http://localhost:8080/bayzat/currencies/by-currency-name?name=Bitcoin",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"bayzat",
+												"currencies",
+												"by-currency-name"
+											],
+											"query": [
+												{
+													"key": "name",
+													"value": "Bitcoin"
+												}
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "Search Currencies By Symbol",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/currencies/by-currency-symbol?symbol=BTC",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"currencies",
+										"by-currency-symbol"
+									],
+									"query": [
+										{
+											"key": "symbol",
+											"value": "BTC"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Users can fetch currencies."
+				},
+				{
+					"name": "User Add Alert",
+					"item": [
+						{
+							"name": "User Login Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/login?username=user1&password=admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "user1"
+										},
+										{
+											"key": "password",
+											"value": "admin"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Alert",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"targetPrice\": 236543\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/bayzat/alerts/add?userId=2&currencyId=4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"alerts",
+										"add"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "2"
+										},
+										{
+											"key": "currencyId",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Users can add alert. Requires an alert body."
+				},
+				{
+					"name": "User Update Alert",
+					"item": [
+						{
+							"name": "User Login Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/login?username=user1&password=admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "user1"
+										},
+										{
+											"key": "password",
+											"value": "admin"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Alert",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"targetPrice\": 1005786780\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/bayzat/alerts/update?alertId=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"alerts",
+										"update"
+									],
+									"query": [
+										{
+											"key": "alertId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Users can update alerts target price."
+				},
+				{
+					"name": "User Delete Alert",
+					"item": [
+						{
+							"name": "User Login Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/login?username=user1&password=admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "user1"
+										},
+										{
+											"key": "password",
+											"value": "admin"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Alert",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/alerts/delete?alertId=6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"alerts",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "alertId",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Users can delete alerts."
+				},
+				{
+					"name": "User Cancel Alert",
+					"item": [
+						{
+							"name": "User Login Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/login?username=user1&password=admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "user1"
+										},
+										{
+											"key": "password",
+											"value": "admin"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cancel Request",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/alerts/cancel?alertId=6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"alerts",
+										"cancel"
+									],
+									"query": [
+										{
+											"key": "alertId",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Users can cancel an alert."
+				},
+				{
+					"name": "User Acknowledge Alert",
+					"item": [
+						{
+							"name": "User Login Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/login?username=user1&password=admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "user1"
+										},
+										{
+											"key": "password",
+											"value": "admin"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Acknowledge Alert",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/alerts/acknowledge?alertId=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"alerts",
+										"acknowledge"
+									],
+									"query": [
+										{
+											"key": "alertId",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Users can acknowledge an alert."
+				},
+				{
+					"name": "User Check If Alert Triggered",
+					"item": [
+						{
+							"name": "User Login Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/login?username=user1&password=admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "user1"
+										},
+										{
+											"key": "password",
+											"value": "admin"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check If Alert Triggered",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/alerts/isTriggered?alertId=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"alerts",
+										"isTriggered"
+									],
+									"query": [
+										{
+											"key": "alertId",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Checks if alert triggered."
+				},
+				{
+					"name": "User Query Alerts",
+					"item": [
+						{
+							"name": "Get Users Alerts By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/alerts/?userId=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"alerts",
+										""
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Query alerts."
+				}
+			],
+			"description": "User role type requests."
+		},
+		{
+			"name": "Admin Requests",
+			"item": [
+				{
+					"name": "Admin Add Currency",
+					"item": [
+						{
+							"name": "Admin Login Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/login?username=admin1&password=admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "admin1",
+											"description": "admin username"
+										},
+										{
+											"key": "password",
+											"value": "admin",
+											"description": "admin password"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Currency",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"NotEthereum\",\r\n    \"marketRank\": 5,\r\n    \"symbol\": \"NETH\",\r\n    \"circulatingSupply\": 12323432,\r\n    \"maxSupply\": 342354352345,\r\n    \"currentPriceUSD\": 1456.543\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/bayzat/currencies/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"currencies",
+										"add"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Add Currency",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"TurkCoin\",\r\n    \"marketRank\": 51323,\r\n    \"symbol\": \"TRY\",\r\n    \"circulatingSupply\": 12323432,\r\n    \"maxSupply\": 342354352345,\r\n    \"currentPriceUSD\": 1456.543\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/bayzat/currencies/add",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"bayzat",
+												"currencies",
+												"add"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					],
+					"description": "Admins can add currencies. Except unsupported coins."
+				},
+				{
+					"name": "Admin Remove Currency",
+					"item": [
+						{
+							"name": "Admin Login Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/login?username=admin1&password=admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "admin1",
+											"description": "admin username"
+										},
+										{
+											"key": "password",
+											"value": "admin",
+											"description": "admin password"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove Currency",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8080/bayzat/currencies/delete?currencyId=6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"currencies",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "currencyId",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Admins can remove currencies."
+				},
+				{
+					"name": "Admin Update Currency",
+					"item": [
+						{
+							"name": "Admin Login Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/login?username=admin1&password=admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "admin1",
+											"description": "admin username"
+										},
+										{
+											"key": "password",
+											"value": "admin",
+											"description": "admin password"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Admin Update Currency",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"PancakeSwap\",\r\n    \"marketRank\": 5,\r\n    \"symbol\": \"CAKE\",\r\n    \"circulatingSupply\": 432,\r\n    \"maxSupply\": 3423545,\r\n    \"currentPrice\": 146.543\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/bayzat/currencies/update?currencyId=4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"currencies",
+										"update"
+									],
+									"query": [
+										{
+											"key": "currencyId",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create User",
+					"item": [
+						{
+							"name": "Admin Login Request Copy",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/login?username=admin1&password=admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "admin1",
+											"description": "admin username"
+										},
+										{
+											"key": "password",
+											"value": "admin",
+											"description": "admin password"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create New User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"admin5@gmail.com\",\r\n    \"password\": \"admin\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/bayzat/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"users"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "ROLE_USER",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\": \"user@gmail.com\",\r\n    \"password\": \"admin\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/bayzat/users",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"bayzat",
+												"users"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "ROLE_ADMIN",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\": \"admin12@gmail.com\",\r\n    \"password\": \"admin\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/bayzat/users",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"bayzat",
+												"users"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					],
+					"description": "If username contains \"admin\" string in itself then user role will be ROLE_ADMIN otherwise ROLE_USER. Only for easy endpoint testing."
+				},
+				{
+					"name": "Admin Get Users",
+					"item": [
+						{
+							"name": "Admin Get All Users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get User By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/users/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"users",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search User By Name",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/bayzat/users/by-username?username=admin2@gmail.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bayzat",
+										"users",
+										"by-username"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "admin2@gmail.com"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "Includes admin role requests. Admins can do everything users can do, plus given:"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
