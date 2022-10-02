@@ -5,7 +5,7 @@ layers used.
 
 Includes some unit tests.
 
-- Simply right click to the "bayzat" folder click 
+- Simply right click to the "currencyBackend" folder click 
   "Open folder as Intellij IDEA project" and run.
 
 - Includes Postman api collection which helps you to easily
